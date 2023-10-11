@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
 /**
  * Modiicador
  * Public
@@ -42,8 +44,12 @@ public class UserController {
         // Status code
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("usuario já existe");
       }
-      var UserCreated = this.userRepository.save(userModel);
-      return ResponseEntity.status(HttpStatus.CREATED).body(UserCreated);
+      var passwordHashred =  BCrypt.withDefaults().hashToString(10, userModel.getPassword().toCharArray()/*transformando em um array de caracter */);// força da criptografia e oque vai ser criptografado
+     
+      userModel.setPassword(passwordHashred);
+      var userCreated = this.userRepository.save(userModel);
+
+      return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
   }
   
 }
