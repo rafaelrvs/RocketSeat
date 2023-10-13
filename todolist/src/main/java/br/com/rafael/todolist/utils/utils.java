@@ -20,9 +20,9 @@ public class utils {
     final BeanWrapper src = new BeanWrapperImpl(source); 
     PropertyDescriptor[] pds = src.getPropertyDescriptors();
     Set <String> emptyNames = new HashSet<>();
-   
-
-   for (PropertyDescriptor pd:pds){
+    
+    
+    for (PropertyDescriptor pd:pds){
     Object srcValue = src.getPropertyDescriptor(pd.getName());
     if(srcValue==null){
       emptyNames.add(pd.getName());
